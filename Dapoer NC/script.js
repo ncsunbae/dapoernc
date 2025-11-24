@@ -40,6 +40,8 @@ const filterButtons = document.querySelectorAll('.filter-btn');
 const catalogGrid = document.querySelector('.catalog-grid');
 const contactForm = document.getElementById('contactForm');
 const clearAllBtn = document.getElementById('clearAllBtn');
+const sortSelect = document.getElementById('sortSelect');
+const resultsCount = document.getElementById('resultsCount');
 
 // Search Elements
 const searchInput = document.getElementById('searchInput');
@@ -158,7 +160,204 @@ const shippingRates = {
     'pos': { name: 'POS Indonesia', rate: 8000, etd: '3-5 hari' }
 };
 
-// ==================== SEARCH FUNCTIONALITY ====================
+// ==================== WHATSAPP NEWSLETTER FUNCTIONALITY ====================
+
+function setupWhatsAppNewsletter() {
+    const waUpdateForm = document.getElementById('waUpdateForm');
+    
+    if (waUpdateForm) {
+        const waNumberInput = document.getElementById('waNumber');
+        
+        waUpdateForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah form submit default (refresh page)
+            
+            const phoneNumber = waNumberInput.value.trim();
+            
+            if (!isValidPhoneNumber(phoneNumber)) {
+                showNotification('Harap masukkan nomor WhatsApp yang valid (10-13 digit)');
+                waNumberInput.focus();
+                return;
+            }
+            
+            // Format nomor untuk WhatsApp
+            let cleanPhone = phoneNumber.replace(/\D/g, '');
+            
+            // Jika diawali 0, ganti dengan 62
+            if (cleanPhone.startsWith('0')) {
+                cleanPhone = '62' + cleanPhone.substring(1);
+            }
+            
+            // Pesan template untuk update produk
+            const message = `Halo Dapoer NC! Saya ingin mendapatkan update produk terbaru dan promo spesial. Nomor WhatsApp saya: ${phoneNumber}`;
+            
+            // Redirect ke WhatsApp
+            const whatsappUrl = `https://wa.me/6289652885287?text=${encodeURIComponent(message)}`;
+            
+            // Buka WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Reset form dan kasih feedback
+            waUpdateForm.reset();
+            showNotification('Terima kasih! WhatsApp akan terbuka untuk konfirmasi update produk.');
+        });
+    }
+}
+
+function isValidPhoneNumber(phone) {
+    const phoneRegex = /^[0-9]{10,13}$/;
+    return phoneRegex.test(phone.replace(/\D/g, ''));
+}
+
+// ==================== FORMSPREE CONTACT FORM ====================
+
+function setupContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    const contactSubmit = document.getElementById('contactSubmit');
+    
+    // Create loading elements if they don't exist
+    if (!contactSubmit.querySelector('.btn-text')) {
+        contactSubmit.innerHTML = `
+            <span class="btn-text">Kirim Pesan</span>
+            <div class="loading-spinner" style="display: none;"></div>
+        `;
+    }
+    
+    const btnText = contactSubmit.querySelector('.btn-text');
+    const spinner = contactSubmit.querySelector('.loading-spinner');
+
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        // Validasi form
+        if (!contactForm.checkValidity()) {
+            showNotification('Harap lengkapi semua field yang diperlukan', 'error');
+            return;
+        }
+
+        // Show loading state
+        contactSubmit.disabled = true;
+        btnText.textContent = 'Mengirim...';
+        spinner.style.display = 'inline-block';
+
+        try {
+            // Prepare form data
+            const formData = new FormData(contactForm);
+            
+            // Send to Formspree
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Success
+                showNotification('Pesan berhasil dikirim! Kami akan merespons segera.', 'success');
+                contactForm.reset();
+            } else {
+                // Error from Formspree
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Formspree error');
+            }
+
+        } catch (error) {
+            console.error('Form submission error:', error);
+            
+            // User-friendly error messages
+            let errorMessage = 'Gagal mengirim pesan. Silahkan coba lagi.';
+            if (error.message.includes('network') || error.message.includes('Failed to fetch')) {
+                errorMessage = 'Koneksi internet bermasalah. Silahkan coba lagi.';
+            }
+            
+            showNotification(errorMessage, 'error');
+        } finally {
+            // Reset button state
+            contactSubmit.disabled = false;
+            btnText.textContent = 'Kirim Pesan';
+            spinner.style.display = 'none';
+        }
+    });
+
+    // Real-time validation feedback
+    const formInputs = contactForm.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value.trim() !== '') {
+                if (this.checkValidity()) {
+                    this.style.borderColor = '#4CAF50';
+                } else {
+                    this.style.borderColor = '#ff4444';
+                }
+            }
+        });
+        
+        input.addEventListener('input', function() {
+            // Reset border color when user starts typing
+            if (this.value.trim() !== '') {
+                this.style.borderColor = '';
+            }
+        });
+    });
+}
+
+// ==================== ENHANCED NOTIFICATION SYSTEM ====================
+
+function showNotification(message, type = 'info') {
+    // Remove existing notifications
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(notification => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    });
+
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    
+    // Add icon based on type
+    let icon = '📧';
+    if (type === 'success') icon = '✅';
+    if (type === 'error') icon = '❌';
+    if (type === 'warning') icon = '⚠️';
+    
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">${icon}</span>
+            <span class="notification-message">${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 5000);
+    
+    // Click to dismiss
+    notification.addEventListener('click', function() {
+        this.classList.remove('show');
+        setTimeout(() => {
+            if (this.parentNode) {
+                this.parentNode.removeChild(this);
+            }
+        }, 300);
+    });
+}
+
+// ==================== SEARCH & FILTER FUNCTIONALITY ====================
 function setupSearch() {
     searchInput.addEventListener('input', function(e) {
         const searchTerm = e.target.value.toLowerCase().trim();
@@ -179,7 +378,6 @@ function setupSearch() {
         searchInput.focus();
     });
     
-    // Enter key untuk search (optional, tapi baik untuk accessibility)
     searchInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             const searchTerm = e.target.value.toLowerCase().trim();
@@ -191,7 +389,6 @@ function setupSearch() {
 }
 
 function performSearch(searchTerm) {
-    // Auto-scroll ke section katalog dengan smooth animation
     const catalogSection = document.getElementById('catalog');
     const headerHeight = document.querySelector('.header').offsetHeight;
     const catalogPosition = catalogSection.offsetTop - headerHeight - 20;
@@ -203,7 +400,6 @@ function performSearch(searchTerm) {
     
     showLoading();
     
-    // Simulate loading delay
     setTimeout(() => {
         const filteredProducts = products.filter(product => 
             product.name.toLowerCase().includes(searchTerm) ||
@@ -244,10 +440,66 @@ function displaySearchedProducts(filteredProducts, searchTerm) {
         catalogGrid.appendChild(productCard);
     });
     
-    // Setup event listeners untuk produk yang difilter
-    setupAllSizeSelectors();
-    setupAllAddToCartButtons();
+    setupCatalogSizeSelectors();
+    setupCatalogAddToCartButtons();
     setupLazyLoading();
+    updateResultsCount(filteredProducts.length);
+}
+
+// ==================== FILTER FUNCTIONALITY ====================
+function setupFilterButtons() {
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            displayProducts(filter);
+        });
+    });
+}
+
+// ==================== SORT FUNCTIONALITY ====================
+function setupSortFunctionality() {
+    sortSelect.addEventListener('change', function() {
+        const currentFilter = document.querySelector('.filter-btn.active').dataset.filter;
+        displayProducts(currentFilter);
+    });
+}
+
+function sortProducts(products, sortType) {
+    const sortedProducts = [...products];
+    
+    switch(sortType) {
+        case 'name-asc':
+            return sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+        case 'name-desc':
+            return sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+        case 'price-asc':
+            return sortedProducts.sort((a, b) => {
+                const priceA = a.hasSizes ? Math.min(...a.sizes.map(s => s.price)) : a.price;
+                const priceB = b.hasSizes ? Math.min(...b.sizes.map(s => s.price)) : b.price;
+                return priceA - priceB;
+            });
+        case 'price-desc':
+            return sortedProducts.sort((a, b) => {
+                const priceA = a.hasSizes ? Math.max(...a.sizes.map(s => s.price)) : a.price;
+                const priceB = b.hasSizes ? Math.max(...b.sizes.map(s => s.price)) : b.price;
+                return priceB - priceA;
+            });
+        case 'stock-desc':
+            return sortedProducts.sort((a, b) => {
+                const stockA = a.hasSizes ? Math.max(...a.sizes.map(s => s.stock)) : a.stock;
+                const stockB = b.hasSizes ? Math.max(...b.sizes.map(s => s.stock)) : b.stock;
+                return stockB - stockA;
+            });
+        default:
+            return sortedProducts;
+    }
+}
+
+function updateResultsCount(count) {
+    resultsCount.textContent = `${count} produk`;
 }
 
 // ==================== LOADING STATES ====================
@@ -298,21 +550,14 @@ function createProductCard(product) {
     const productCard = document.createElement('div');
     productCard.className = 'product-card';
     
-    let defaultPrice = product.hasSizes 
-        ? product.sizes.find(size => size.isDefault)?.price || product.sizes[0].price
-        : product.price;
+    const defaultSize = product.hasSizes 
+        ? product.sizes.find(size => size.isDefault) || product.sizes[0]
+        : null;
     
-    let defaultSize = product.hasSizes 
-        ? product.sizes.find(size => size.isDefault)?.size || product.sizes[0].size
-        : '';
-        
-    let defaultSizeDescription = product.hasSizes 
-        ? product.sizes.find(size => size.isDefault)?.description || product.sizes[0].description
-        : '';
-        
-    let defaultStock = product.hasSizes 
-        ? product.sizes.find(size => size.isDefault)?.stock || product.sizes[0].stock
-        : product.stock || 0;
+    const defaultPrice = defaultSize ? defaultSize.price : product.price;
+    const defaultSizeValue = defaultSize ? defaultSize.size : '';
+    const defaultSizeDescription = defaultSize ? defaultSize.description : '';
+    const defaultStock = defaultSize ? defaultSize.stock : product.stock;
     
     productCard.innerHTML = `
         <div class="product-image">
@@ -327,8 +572,8 @@ function createProductCard(product) {
                         data-name="${product.name}"
                         data-price="${defaultPrice}"
                         data-stock="${defaultStock}"
-                        ${product.hasSizes ? `data-size="${defaultSize}" 
-                        data-size-description="${defaultSizeDescription}"` : ''}>
+                        data-size="${defaultSizeValue}"
+                        data-size-description="${defaultSizeDescription}">
                     + Keranjang
                 </button>
             </div>
@@ -460,7 +705,7 @@ clearAllBtn.addEventListener('click', () => {
     }
 });
 
-// ==================== EDIT SIZE MODAL ====================
+// ==================== EDIT SIZE MODAL - FIXED VERSION ====================
 function openEditSizeModal(index) {
     const item = cart[index];
     const product = products.find(p => p.id === item.productId);
@@ -472,42 +717,51 @@ function openEditSizeModal(index) {
     
     currentEditIndex = index;
     
-    editProductImage.src = item.image;
+    editProductImage.src = item.image || 'https://via.placeholder.com/150x150?text=Dapoer+NC';
     editProductImage.alt = item.name;
     editProductName.textContent = item.name;
+    
+    // FIX: Pastikan data yang ditampilkan benar
     editCurrentSize.textContent = `Ukuran saat ini: ${item.selectedSize} - ${item.sizeDescription}`;
     editProductPrice.textContent = `Rp ${item.price.toLocaleString()}`;
     
     sizeSelectorModal.innerHTML = '';
-    product.sizes.forEach((size, sizeIndex) => {
+    
+    // FIX: Initialize dengan data yang valid dari cart item
+    selectedSizeForEdit = item.selectedSize;
+    selectedPriceForEdit = item.price;
+    selectedSizeDescriptionForEdit = item.sizeDescription;
+    selectedStockForEdit = item.stock;
+    
+    // Render size buttons
+    product.sizes.forEach((size) => {
         const sizeBtn = document.createElement('button');
-        sizeBtn.className = `size-btn ${size.size === item.selectedSize ? 'active' : ''}`;
+        const isActive = size.size === item.selectedSize;
+        
+        sizeBtn.className = `size-btn ${isActive ? 'active' : ''}`;
         sizeBtn.textContent = size.size;
         sizeBtn.dataset.size = size.size;
         sizeBtn.dataset.price = size.price;
         sizeBtn.dataset.description = size.description;
         sizeBtn.dataset.stock = size.stock;
         
-        if (size.size === item.selectedSize) {
-            selectedSizeForEdit = size.size;
-            selectedPriceForEdit = size.price;
-            selectedSizeDescriptionForEdit = size.description;
-            selectedStockForEdit = size.stock;
-        }
-        
         sizeBtn.addEventListener('click', (e) => {
+            // Remove active class dari semua button
             sizeSelectorModal.querySelectorAll('.size-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
+            // Add active class ke button yang diklik
             e.target.classList.add('active');
             
+            // FIX: Update selected values dengan data yang valid
             selectedSizeForEdit = size.size;
-            selectedPriceForEdit = size.price;
+            selectedPriceForEdit = parseInt(size.price);
             selectedSizeDescriptionForEdit = size.description;
-            selectedStockForEdit = size.stock;
+            selectedStockForEdit = parseInt(size.stock);
             
-            editProductPrice.textContent = `Rp ${parseInt(size.price).toLocaleString()}`;
+            // Update price display
+            editProductPrice.textContent = `Rp ${size.price.toLocaleString()}`;
         });
         
         sizeSelectorModal.appendChild(sizeBtn);
@@ -531,23 +785,48 @@ closeEditModal.addEventListener('click', closeEditModalHandler);
 cancelEdit.addEventListener('click', closeEditModalHandler);
 
 saveEdit.addEventListener('click', () => {
-    if (currentEditIndex === null || !selectedSizeForEdit) return;
+    if (currentEditIndex === null) {
+        showNotification('Tidak ada produk yang dipilih untuk diedit');
+        return;
+    }
+    
+    // FIX: Validasi yang lebih robust
+    if (!selectedSizeForEdit) {
+        // Jika masih null, coba ambil dari active button
+        const activeSizeBtn = sizeSelectorModal.querySelector('.size-btn.active');
+        if (activeSizeBtn) {
+            selectedSizeForEdit = activeSizeBtn.dataset.size;
+            selectedPriceForEdit = parseInt(activeSizeBtn.dataset.price);
+            selectedSizeDescriptionForEdit = activeSizeBtn.dataset.description;
+            selectedStockForEdit = parseInt(activeSizeBtn.dataset.stock);
+        } else {
+            showNotification('Harap pilih ukuran terlebih dahulu');
+            return;
+        }
+    }
     
     const item = cart[currentEditIndex];
     const oldSize = item.selectedSize;
     
+    // FIX: Validasi data sebelum menyimpan
+    if (!selectedSizeForEdit || !selectedPriceForEdit || !selectedSizeDescriptionForEdit) {
+        showNotification('Data ukuran tidak valid. Silahkan coba lagi.');
+        return;
+    }
+    
+    // Update item data
     item.selectedSize = selectedSizeForEdit;
-    item.price = parseInt(selectedPriceForEdit);
+    item.price = selectedPriceForEdit;
     item.sizeDescription = selectedSizeDescriptionForEdit;
     item.stock = selectedStockForEdit;
     
+    // FIX: Update item ID untuk uniqueness
     item.id = `${item.productId}-${selectedSizeForEdit}`;
     
     saveCart();
     updateCart();
     closeEditModalHandler();
     
-    showNotification(`Ukuran ${item.name} diubah dari ${oldSize} ke ${selectedSizeForEdit}`);
 });
 
 // ==================== CHECKOUT FUNCTIONALITY ====================
@@ -703,8 +982,6 @@ function redirectToWhatsApp(message) {
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
     
-    console.log('Redirecting to WhatsApp:', whatsappUrl);
-    
     try {
         const newWindow = window.open(whatsappUrl, '_blank');
         if (!newWindow) {
@@ -729,16 +1006,20 @@ function clearCartAfterCheckout() {
     showNotification('Order berhasil! Silahkan lanjutkan pembayaran via WhatsApp.');
 }
 
-// ==================== PRODUCT SIZE SELECTOR ====================
+// ==================== PRODUCT SIZE SELECTOR - FIXED VERSION ====================
 function renderSizeSelector(productId, container) {
     const product = products.find(p => p.id == productId);
     if (!product || !product.hasSizes) return;
     
     container.innerHTML = '';
     
-    product.sizes.forEach((size, index) => {
+    const defaultSize = product.sizes.find(size => size.isDefault) || product.sizes[0];
+    
+    product.sizes.forEach((size) => {
         const sizeBtn = document.createElement('button');
-        sizeBtn.className = `size-btn ${size.isDefault ? 'active' : ''}`;
+        const isActive = size.size === defaultSize.size;
+        
+        sizeBtn.className = `size-btn ${isActive ? 'active' : ''}`;
         sizeBtn.textContent = size.size;
         sizeBtn.dataset.size = size.size;
         sizeBtn.dataset.price = size.price;
@@ -746,31 +1027,42 @@ function renderSizeSelector(productId, container) {
         sizeBtn.dataset.stock = size.stock;
         
         sizeBtn.addEventListener('click', (e) => {
+            // Remove active class dari semua button
             container.querySelectorAll('.size-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             
+            // Add active class ke button yang diklik
             e.target.classList.add('active');
             
+            // Update product card data
             const productCard = container.closest('.product-card');
             const priceElement = productCard.querySelector('.product-price');
             const stockElement = productCard.querySelector('.product-stock');
-            
-            priceElement.textContent = `Rp ${parseInt(size.price).toLocaleString()}`;
-            stockElement.textContent = `Stock: ${size.stock}`;
-            
             const addToCartBtn = productCard.querySelector('.add-to-cart');
-            addToCartBtn.dataset.price = size.price;
-            addToCartBtn.dataset.size = size.size;
-            addToCartBtn.dataset.sizeDescription = size.description;
-            addToCartBtn.dataset.stock = size.stock;
+            
+            if (priceElement) {
+                priceElement.textContent = `Rp ${parseInt(size.price).toLocaleString()}`;
+            }
+            
+            if (stockElement) {
+                stockElement.textContent = `Stock: ${size.stock}`;
+            }
+            
+            if (addToCartBtn) {
+                // FIX: Update semua data attribute dengan benar
+                addToCartBtn.dataset.price = size.price;
+                addToCartBtn.dataset.size = size.size;
+                addToCartBtn.dataset.sizeDescription = size.description;
+                addToCartBtn.dataset.stock = size.stock;
+            }
         });
         
         container.appendChild(sizeBtn);
     });
 }
 
-// ==================== ADD TO CART FUNCTIONALITY ====================
+// ==================== ADD TO CART FUNCTIONALITY - FIXED VERSION ====================
 function animateAddToCart(button) {
     const productCard = button.closest('.product-card');
     const productImage = productCard.querySelector('img');
@@ -828,8 +1120,10 @@ function handleAddToCart(event) {
         const price = parseInt(button.dataset.price);
         const stock = parseInt(button.dataset.stock);
         const image = button.closest('.product-card').querySelector('img').src;
-        const selectedSize = button.dataset.size;
-        const sizeDescription = button.dataset.sizeDescription;
+        
+        // FIX: Ambil data size dari button dataset
+        const selectedSize = button.dataset.size || '';
+        const sizeDescription = button.dataset.sizeDescription || '';
         
         const product = products.find(p => p.id == productId);
         const hasSizes = product ? product.hasSizes : false;
@@ -843,7 +1137,8 @@ function handleAddToCart(event) {
         
         animateAddToCart(button);
         
-        const cartItemId = selectedSize ? `${productId}-${selectedSize}` : productId;
+        // FIX: Pastikan cartItemId selalu valid
+        const cartItemId = selectedSize ? `${productId}-${selectedSize}` : productId.toString();
         
         const existingItem = cart.find(item => item.id === cartItemId);
         
@@ -856,15 +1151,16 @@ function handleAddToCart(event) {
             }
             existingItem.quantity++;
         } else {
+            // FIX: Pastikan semua data ada dan valid
             cart.push({
                 id: cartItemId,
                 productId: parseInt(productId),
-                name,
-                price,
-                stock,
-                image,
-                selectedSize,
-                sizeDescription,
+                name: name,
+                price: price,
+                stock: stock,
+                image: image,
+                selectedSize: selectedSize,
+                sizeDescription: sizeDescription,
                 quantity: 1,
                 hasSizes: hasSizes
             });
@@ -881,76 +1177,81 @@ function handleAddToCart(event) {
     }, 500);
 }
 
-// ==================== PRODUCT DISPLAY ====================
-function setupAllAddToCartButtons() {
-    document.querySelectorAll('.featured-products .add-to-cart').forEach(button => {
-        button.addEventListener('click', handleAddToCart);
-    });
+// ==================== FEATURED PRODUCTS ====================
+function displayFeaturedProducts() {
+    const featuredProductsGrid = document.getElementById('featuredProductsGrid');
+    featuredProductsGrid.innerHTML = '';
+
+    const featuredProductIds = [1, 2, 3];
     
-    document.querySelectorAll('.catalog .add-to-cart').forEach(button => {
+    featuredProductIds.forEach(productId => {
+        const product = products.find(p => p.id === productId);
+        if (product) {
+            const productCard = createProductCard(product);
+            featuredProductsGrid.appendChild(productCard);
+        }
+    });
+
+    setupFeaturedSizeSelectors();
+    setupFeaturedAddToCartButtons();
+}
+
+function setupFeaturedSizeSelectors() {
+    document.querySelectorAll('#featuredProductsGrid .size-selector').forEach(container => {
+        const productId = container.dataset.product;
+        renderSizeSelector(productId, container);
+    });
+}
+
+function setupFeaturedAddToCartButtons() {
+    document.querySelectorAll('#featuredProductsGrid .add-to-cart').forEach(button => {
         button.addEventListener('click', handleAddToCart);
     });
 }
 
-function setupAllSizeSelectors() {
-    document.querySelectorAll('.featured-products .size-selector').forEach(container => {
-        const productId = container.dataset.product;
-        renderSizeSelector(productId, container);
-    });
-    
-    document.querySelectorAll('.catalog .size-selector').forEach(container => {
-        const productId = container.dataset.product;
-        renderSizeSelector(productId, container);
-    });
-}
-
+// ==================== CATALOG PRODUCTS ====================
 function displayProducts(filter = 'all') {
     catalogGrid.innerHTML = '';
     
-    const filteredProducts = filter === 'all' 
+    let filteredProducts = filter === 'all' 
         ? products 
         : products.filter(product => product.category === filter);
+    
+    const sortType = sortSelect.value;
+    filteredProducts = sortProducts(filteredProducts, sortType);
     
     filteredProducts.forEach(product => {
         const productCard = createProductCard(product);
         catalogGrid.appendChild(productCard);
     });
     
-    setupAllSizeSelectors();
-    setupAllAddToCartButtons();
+    setupCatalogSizeSelectors();
+    setupCatalogAddToCartButtons();
     setupLazyLoading();
+    updateResultsCount(filteredProducts.length);
 }
 
-// ==================== NOTIFICATION SYSTEM ====================
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('show');
-    }, 100);
-    
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 3000);
+function setupCatalogSizeSelectors() {
+    document.querySelectorAll('.catalog .size-selector').forEach(container => {
+        const productId = container.dataset.product;
+        renderSizeSelector(productId, container);
+    });
+}
+
+function setupCatalogAddToCartButtons() {
+    document.querySelectorAll('.catalog .add-to-cart').forEach(button => {
+        button.addEventListener('click', handleAddToCart);
+    });
 }
 
 // ==================== PRODUCTS DATA ====================
 const products = [
-    // PERALATAN MAKAN (Cutlery)
+    // PERALATAN MAKAN (Cutlery) - ID 1-10
     {
         id: 1,
-        name: "Sendok Kayu Premium",
+        name: "Sendok",
         category: "cutlery",
-        image: "images/sendokk.png",
+        image: "images/sendok.png",
         badge: "Terlaris #1",
         hasSizes: true,
         sizes: [
@@ -971,9 +1272,9 @@ const products = [
     },
     {
         id: 2,
-        name: "Garpu Kayu Elegant",
+        name: "Garpu",
         category: "cutlery",
-        image: "images/garpuu.png",
+        image: "images/garpu.png",
         badge: "Terlaris #2",
         hasSizes: true,
         sizes: [
@@ -994,9 +1295,9 @@ const products = [
     },
     {
         id: 3,
-        name: "Sumpit Bambu Natural",
+        name: "Sumpit",
         category: "cutlery",
-        image: "images/sumpitt.png",
+        image: "images/sumpit.png",
         badge: "Terlaris #3",
         hasSizes: true,
         sizes: [
@@ -1206,7 +1507,7 @@ const products = [
         ]
     },
 
-    // PERALATAN MASAK (Cookware)
+    // PERALATAN MASAK (Cookware) - ID 11-24
     {
         id: 11,
         name: "Wajan",
@@ -1564,7 +1865,7 @@ const products = [
         ]
     },
 
-    // PENYIMPANAN (Storage)
+    // PENYIMPANAN (Storage) - ID 25-28
     {
         id: 25,
         name: "Teko",
@@ -1672,7 +1973,7 @@ const products = [
         ]
     },
 
-    // AKSESORIS (Accessories)
+    // AKSESORIS (Accessories) - ID 29-30
     {
         id: 29,
         name: "Corong",
@@ -1725,41 +2026,24 @@ const products = [
     }
 ];
 
-// ==================== FILTER & CONTACT ====================
-filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-        const filter = button.dataset.filter;
-        displayProducts(filter);
-    });
-});
-
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const name = contactForm.querySelector('input[type="text"]').value;
-    const email = contactForm.querySelector('input[type="email"]').value;
-    const subject = contactForm.querySelectorAll('input[type="text"]')[1].value;
-    const message = contactForm.querySelector('textarea').value;
-    
-    console.log({ name, email, subject, message });
-    
-    showNotification('Pesan Anda telah terkirim! Kami akan segera merespons.');
-    
-    contactForm.reset();
-});
-
 // ==================== INITIALIZATION ====================
+
 document.addEventListener('DOMContentLoaded', () => {
     updateCart();
     displayProducts();
+    displayFeaturedProducts();
     setupMenuClick();
-    setupAllSizeSelectors();
-    setupAllAddToCartButtons();
+    setupFilterButtons();
+    setupSortFunctionality();
     setupSearch();
     setupLazyLoading();
     setActiveMenu();
+    
+    // Setup WhatsApp Newsletter
+    setupWhatsAppNewsletter();
+    
+    // Setup Contact Form
+    setupContactForm();
     
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
