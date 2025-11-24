@@ -29,451 +29,413 @@
                 </div>
             </div>
 
-                <nav class="navbar">
-                    <ul class="nav-menu">
-                        <li><a href="#home" class="nav-link active">Beranda</a></li>
-                        <li><a href="#catalog" class="nav-link">Katalog</a></li>
-                        <li><a href="#about" class="nav-link">Tentang</a></li>
-                        <li><a href="#contact" class="nav-link">Kontak</a></li>
-                    </ul>
-                    <div class="nav-actions">
-                        <!-- Theme Toggle Button -->
-                        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                        <!-- Cart Button -->
-                        <button class="cart-btn" id="cartBtn">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-count">0</span>
-                        </button>
-                        <div class="hamburger" id="hamburger">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
+            <nav class="navbar">
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Beranda</a></li>
+                    <li><a href="#catalog" class="nav-link">Katalog</a></li>
+                    <li><a href="#about" class="nav-link">Tentang</a></li>
+                    <li><a href="#contact" class="nav-link">Kontak</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <!-- Theme Toggle Button -->
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <!-- Cart Button -->
+                    <button class="cart-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <div class="hamburger" id="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
         </div>
-    </header>
+    </div>
+</header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <h2 class="hero-title">Elevate Your Culinary Experience</h2>
-                <p class="hero-subtitle">Temukan koleksi peralatan dapur premium yang menggabungkan estetika Jawa klasik dengan fungsionalitas modern.</p>
-                <a href="#catalog" class="btn-primary">Jelajahi Koleksi</a>
-            </div>
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="container">
+        <div class="hero-content">
+            <h2 class="hero-title">Elevate Your Culinary Experience</h2>
+            <p class="hero-subtitle">Temukan koleksi peralatan dapur premium yang menggabungkan estetika Jawa klasik dengan fungsionalitas modern.</p>
+            <a href="#catalog" class="btn-primary">Jelajahi Koleksi</a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Featured Products -->
-    <section class="featured-products">
-        <div class="container">
-            <h2 class="section-title">Produk Terlaris</h2>
-            <div class="products-grid">
-                <!-- Sendok Kayu Premium -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="images/sendokk.png" alt="Sendok Kayu Premium">
-                        <div class="product-overlay">
-                            <button class="add-to-cart" 
-                                    data-id="1" 
-                                    data-name="Sendok Kayu Premium"
-                                    data-price="2500"
-                                    data-size="Standar"
-                                    data-size-description="Standard size">
-                                + Keranjang
-                            </button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Sendok Kayu Premium</h3>
-                        <div class="size-selector" data-product="1"></div>
-                        <p class="product-price">Rp 2.500</p>
-                        <div class="product-badge">Terlaris #1</div>
-                    </div>
-                </div>
-                
-                <!-- Garpu Kayu Elegant -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="images/garpuu.png" alt="Garpu Kayu Elegant">
-                        <div class="product-overlay">
-                            <button class="add-to-cart" 
-                                    data-id="2" 
-                                    data-name="Garpu Kayu Elegant"
-                                    data-price="2500"
-                                    data-size="Standar"
-                                    data-size-description="Standard size">
-                                + Keranjang
-                            </button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Garpu Kayu Elegant</h3>
-                        <div class="size-selector" data-product="2"></div>
-                        <p class="product-price">Rp 2.500</p>
-                        <div class="product-badge">Terlaris #2</div>
-                    </div>
-                </div>
-                
-                <!-- Sumpit Bambu Natural -->
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="images/sumpitt.png" alt="Sumpit Bambu Natural">
-                        <div class="product-overlay">
-                            <button class="add-to-cart" 
-                                    data-id="3" 
-                                    data-name="Sumpit Bambu Natural"
-                                    data-price="2500"
-                                    data-size="M"
-                                    data-size-description="20 cm">
-                                + Keranjang
-                            </button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">Sumpit Bambu Natural</h3>
-                        <div class="size-selector" data-product="3"></div>
-                        <p class="product-price">Rp 2.500</p>
-                        <div class="product-badge">Terlaris #3</div>
-                    </div>
-                </div>
-            </div>
+<!-- Featured Products -->
+<section class="featured-products">
+    <div class="container">
+        <h2 class="section-title">Produk Terlaris</h2>
+        <div class="products-grid" id="featuredProductsGrid">
+            <!-- Featured products will be loaded via JavaScript -->
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Catalog Section -->
-    <section class="catalog" id="catalog">
-       <div class="container">
-           <h2 class="section-title">Katalog Produk</h2>
-        
-            <div class="catalog-grid">
-                <!-- Products will be loaded via JavaScript -->
+<!-- Catalog Section -->
+<section class="catalog" id="catalog">
+   <div class="container">
+       <h2 class="section-title">Katalog Produk</h2>
+    
+        <!-- Sort & Filter Controls -->
+        <div class="catalog-controls">
+            <div class="sort-control">
+                <label for="sortSelect">Urutkan:</label>
+                <select id="sortSelect" class="sort-select">
+                    <option value="default">Default</option>
+                    <option value="name-asc">Nama A-Z</option>
+                    <option value="name-desc">Nama Z-A</option>
+                    <option value="price-asc">Harga Terendah</option>
+                    <option value="price-desc">Harga Tertinggi</option>
+                    <option value="stock-desc">Stok Terbanyak</option>
+                </select>
             </div>
-        </div>
-    </section>
+            <div class="results-count">
+                <span id="resultsCount">0 produk</span>
+            </div>
+     </div>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">Tentang Dapoér NC</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>Dapoér NC hadir dengan filosofi menggabungkan kehangatan tradisi Jawa dengan eleganitas modern. Kami percaya bahwa dapur bukan hanya tempat memasak, tetapi ruang yang memancarkan energi positif dan kreativitas.</p>
-                    <p>Setiap produk kami dipilih dengan cermat untuk memberikan pengalaman memasak yang tak terlupakan, dengan sentuhan estetika yang terinspirasi dari warisan budaya Jawa.</p>
-                </div>
-                <div class="about-features-grid">
-                    <div class="feature-row">
-                        <div class="feature-box">
-                            <i class="fas fa-award"></i>
-                            <h4>Kualitas Premium</h4>
-                            <p>Material terbaik dengan standar internasional</p>
-                        </div>
-                        <div class="feature-box">
-                            <i class="fas fa-heart"></i>
-                            <h4>Dibuat dengan Cinta</h4>
-                            <p>Setiap detail diperhatikan dengan penuh passion</p>
-                        </div>
-                    </div>
-                    <div class="feature-row">
-                        <div class="feature-box">
-                            <i class="fas fa-leaf"></i>
-                            <h4>Ramah Lingkungan</h4>
-                            <p>Produk yang berkelanjutan dan eco-friendly</p>
-                        </div>
-                        <div class="feature-box">
-                            <i class="fas fa-shield-alt"></i>
-                            <h4>Garansi Kepuasan</h4>
-                            <p>Jaminan kualitas dan kepuasan pelanggan</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Semua Produk</button>
+            <button class="filter-btn" data-filter="cutlery">Peralatan Makan</button>
+            <button class="filter-btn" data-filter="cookware">Peralatan Masak</button>
+            <button class="filter-btn" data-filter="storage">Penyimpanan</button>
+            <button class="filter-btn" data-filter="accessories">Aksesoris</button>
         </div>
-    </section>
+    
+        <div class="catalog-grid">
+            <!-- Products will be loaded via JavaScript -->
+        </div>
+    </div>
+</section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Hubungi Kami</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Lokasi</h4>
-                            <p>Jl. Kemang Raya No. 12, Jakarta Selatan</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h4>Telepon</h4>
-                            <p>0896-5288-5287</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email</h4>
-                            <p>dapoernc@gmail.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h4>Jam Operasional</h4>
-                            <p> Senin - Jumat    : 09.00 - 21.00 WIB</p>
-                            <p> Sabtu - Minggu   : 10.00 - 22.00 WIB</p>
-                            <p> Libur Nasional   : Tutup</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" placeholder="Nama Lengkap" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" placeholder="Subjek" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea placeholder="Pesan" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary">Kirim Pesan</button>
-                    </form>
-                </div>
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container">
+        <h2 class="section-title">Tentang Dapoér NC</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Dapoér NC hadir dengan filosofi menggabungkan kehangatan tradisi Jawa dengan eleganitas modern. Kami percaya bahwa dapur bukan hanya tempat memasak, tetapi ruang yang memancarkan energi positif dan kreativitas.</p>
+                <p>Setiap produk kami dipilih dengan cermat untuk memberikan pengalaman memasak yang tak terlupakan, dengan sentuhan estetika yang terinspirasi dari warisan budaya Jawa.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="logo">
-                        <h2>Dapoér<span>NC</span></h2>
-                        <p class="slogan">where kitchen meets vibes</p>
+            <div class="about-features-grid">
+                <div class="feature-row">
+                    <div class="feature-box">
+                        <i class="fas fa-award"></i>
+                        <h4>Kualitas Premium</h4>
+                        <p>Material terbaik dengan standar internasional</p>
                     </div>
-                    <p>Menghadirkan peralatan dapur premium dengan sentuhan elegan Jawa kuno untuk pengalaman memasak yang tak terlupakan.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    <div class="feature-box">
+                        <i class="fas fa-heart"></i>
+                        <h4>Dibuat dengan Cinta</h4>
+                        <p>Setiap detail diperhatikan dengan penuh passion</p>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Menu Cepat</h3>
-                    <ul>
-                        <li><a href="#home">Beranda</a></li>
-                        <li><a href="#catalog">Katalog</a></li>
-                        <li><a href="#about">Tentang</a></li>
-                        <li><a href="#contact">Kontak</a></li>
-                    </ul>
+                <div class="feature-row">
+                    <div class="feature-box">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Ramah Lingkungan</h4>
+                        <p>Produk yang berkelanjutan dan eco-friendly</p>
+                    </div>
+                    <div class="feature-box">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Garansi Kepuasan</h4>
+                        <p>Jaminan kualitas dan kepuasan pelanggan</p>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Kategori Produk</h3>
-                    <ul>
-                        <li><a href="#" data-filter="cutlery">Peralatan Makan</a></li>
-                        <li><a href="#" data-filter="cookware">Peralatan Masak</a></li>
-                        <li><a href="#" data-filter="storage">Penyimpanan</a></li>
-                        <li><a href="#" data-filter="accessories">Aksesoris</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Newsletter</h3>
-                    <p>Dapatkan update produk terbaru dan penawaran spesial.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Email Anda" required>
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </form>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Dapoér NC. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Shopping Cart Sidebar -->
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Keranjang Belanja</h3>
-            <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="cart-items">
-            <!-- Cart items will be loaded here -->
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotal">Rp 0</span>
-            </div>
-            <div class="cart-actions">
-                <button class="btn-secondary clear-all-btn" id="clearAllBtn">
-                    <i class="fas fa-trash"></i> Hapus Semua
-                </button>
-                <button class="btn-primary checkout-btn" id="checkoutBtn">Checkout</button>
             </div>
         </div>
     </div>
-    <div class="cart-overlay" id="cartOverlay"></div>
+</section>
 
-    <!-- Edit Size Modal -->
-    <div class="modal-overlay" id="editSizeModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Edit Ukuran Produk</h3>
-                <button class="close-modal" id="closeEditModal"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <div class="edit-product-info">
-                    <div class="edit-product-image">
-                        <img id="editProductImage" src="" alt="">
-                    </div>
-                    <div class="edit-product-details">
-                        <h4 id="editProductName"></h4>
-                        <p class="current-size" id="editCurrentSize"></p>
+<!-- Contact Section -->
+<section class="contact" id="contact">
+    <div class="container">
+        <h2 class="section-title">Hubungi Kami</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Lokasi</h4>
+                        <p>Jl. Kemang Raya No. 12, Jakarta Selatan</p>
                     </div>
                 </div>
-                <div class="size-selector-modal" id="sizeSelectorModal">
-                    <!-- Size options will be loaded here -->
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h4>Telepon</h4>
+                        <p>0896-5288-5287</p>
+                    </div>
                 </div>
-                <div class="edit-price-info">
-                    <p>Harga: <span id="editProductPrice">Rp 0</span></p>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email</h4>
+                        <p>dapoernc@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Jam Operasional</h4>
+                        <p> Senin - Jumat    : 09.00 - 21.00 WIB</p>
+                        <p> Sabtu - Minggu   : 10.00 - 22.00 WIB</p>
+                        <p> Libur Nasional   : Tutup</p>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" id="cancelEdit">Batal</button>
-                <button class="btn-primary" id="saveEdit">Simpan Perubahan</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Modal -->
-    <div class="modal-overlay" id="checkoutModal">
-        <div class="modal-content checkout-modal">
-            <div class="modal-header">
-                <h3>Checkout</h3>
-                <button class="close-modal" id="closeCheckoutModal"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <form id="checkoutForm">
-                    <div class="form-section">
-                        <h4>Data Diri</h4>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="customerName">Nama Lengkap *</label>
-                                <input type="text" id="customerName" name="customerName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="customerPhone">No. WhatsApp *</label>
-                                <input type="tel" id="customerPhone" name="customerPhone" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="customerEmail">Email</label>
-                                <input type="email" id="customerEmail" name="customerEmail">
-                            </div>
-                            <div class="form-group">
-                                <label for="customerCity">Kota *</label>
-                                <input type="text" id="customerCity" name="customerCity" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="customerAddress">Alamat Lengkap *</label>
-                            <textarea id="customerAddress" name="customerAddress" rows="3" required></textarea>
-                        </div>
+            <div class="contact-form">
+                <form id="contactForm" action="https://formspree.io/f/mdkvkzqn" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="contactName" name="name" placeholder="Nama Lengkap" required>
                     </div>
-
-                    <div class="form-section">
-                        <h4>Pengiriman</h4>
-                        <div class="form-group">
-                            <label for="shippingMethod">Pilih Kurir *</label>
-                            <select id="shippingMethod" name="shippingMethod" required>
-                                <option value="">Pilih kurir...</option>
-                                <option value="gosend">GoSend (1-2 jam) - Rp 15,000</option>
-                                <option value="grabrexpress">GrabExpress (1-2 jam) - Rp 12,000</option>
-                                <option value="jne">JNE Reguler (2-3 hari) - Rp 10,000</option>
-                                <option value="tiki">TIKI Reguler (2-3 hari) - Rp 11,000</option>
-                                <option value="pos">POS Indonesia (3-5 hari) - Rp 8,000</option>
-                            </select>
-                        </div>
+                    <div class="form-group">
+                        <input type="email" id="contactEmail" name="email" placeholder="Email" required>
                     </div>
-
-                    <div class="form-section">
-                        <h4>Catatan Tambahan</h4>
-                        <div class="form-group">
-                            <textarea id="orderNotes" name="orderNotes" rows="2" placeholder="Catatan khusus untuk pesanan..."></textarea>
-                        </div>
+                    <div class="form-group">
+                        <input type="text" id="contactSubject" name="subject" placeholder="Subjek" required>
                     </div>
-
-                    <div class="order-summary-section">
-                        <h4>Ringkasan Pesanan</h4>
-                        <div class="order-summary" id="orderSummary">
-                            <!-- Order summary will be loaded here -->
-                        </div>
-                        <div class="order-totals">
-                            <div class="total-row">
-                                <span>Subtotal:</span>
-                                <span id="summarySubtotal">Rp 0</span>
-                            </div>
-                            <div class="total-row">
-                                <span>Ongkos Kirim:</span>
-                                <span id="summaryShipping">Rp 0</span>
-                            </div>
-                            <div class="total-row grand-total">
-                                <span>Total:</span>
-                                <span id="summaryTotal">Rp 0</span>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <textarea id="contactMessage" name="message" placeholder="Pesan" rows="5" required></textarea>
                     </div>
-
-                    <div class="payment-info">
-                        <h4>Metode Pembayaran</h4>
-                        <div class="payment-methods">
-                            <div class="payment-method">
-                                <strong>Transfer Bank:</strong>
-                                <div>BCA: 123-456-7890 a.n Dapoer NC</div>
-                                <div>Mandiri: 098-765-4321 a.n Dapoer NC</div>
-                                <div>BNI: 567-890-1234 a.n Dapoer NC</div>
-                                <div>BRI: 432-109-8765 a.n Dapoer NC</div>
-                            </div>
-                            <div class="payment-method">
-                                <strong>E-Wallet:</strong>
-                                <div>OVO: 089652885287</div>
-                                <div>DANA: 089652885287</div>
-                                <div>GoPay: 089652885287</div>
-                                <div>ShopeePay: 089652885287</div>
-                            </div>
-                        </div>
-                        <div class="payment-note">
-                            <p><strong>Note:</strong> Order akan diproses dalam 1 hari kerja setelah pembayaran dikonfirmasi.</p>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn-primary" id="contactSubmit">
+                        <span class="btn-text">Kirim Pesan</span>
+                        <div class="loading-spinner" style="display: none;"></div>
+                    </button>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" id="cancelCheckout">Batal</button>
-                <button class="btn-primary" id="confirmCheckout">
-                    <i class="fab fa-whatsapp"></i> Lanjutkan ke WhatsApp
-                </button>
-            </div>
         </div>
     </div>
+</section>
 
-    <script src="script.js"></script>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="logo">
+                    <h2>Dapoér<span>NC</span></h2>
+                    <p class="slogan">where kitchen meets vibes</p>
+                </div>
+                <p>Menghadirkan peralatan dapur premium dengan sentuhan elegan Jawa kuno untuk pengalaman memasak yang tak terlupakan.</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/dapoernc" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/dapoernc" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com/dapoernc" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://pinterest.com/dapoernc" target="_blank"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-section menu-cepat">
+                <h3>Menu Cepat</h3>
+                <ul>
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#catalog">Katalog</a></li>
+                    <li><a href="#about">Tentang</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Kategori Produk</h3>
+                <ul>
+                    <li><a href="#" data-filter="cutlery">Peralatan Makan</a></li>
+                    <li><a href="#" data-filter="cookware">Peralatan Masak</a></li>
+                    <li><a href="#" data-filter="storage">Penyimpanan</a></li>
+                    <li><a href="#" data-filter="accessories">Aksesoris</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Update Produk</h3>
+                <p>Dapatkan info produk terbaru dan promo spesial via WhatsApp.</p>
+                <form class="newsletter-form" id="waUpdateForm">
+                    <input type="tel" id="waNumber" name="waNumber" placeholder="Nomor WhatsApp Anda" required 
+                           pattern="[0-9]{10,13}" title="Masukkan nomor WhatsApp (10-13 digit)">
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+                <p class="form-note">Kami akan mengirim update produk via WhatsApp</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Dapoér NC. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Shopping Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h3>Keranjang Belanja</h3>
+        <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-items">
+        <!-- Cart items will be loaded here -->
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">Rp 0</span>
+        </div>
+        <div class="cart-actions">
+            <button class="btn-secondary clear-all-btn" id="clearAllBtn">
+                <i class="fas fa-trash"></i> Hapus Semua
+            </button>
+            <button class="btn-primary checkout-btn" id="checkoutBtn">Checkout</button>
+        </div>
+    </div>
+</div>
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<!-- Edit Size Modal -->
+<div class="modal-overlay" id="editSizeModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Ukuran Produk</h3>
+            <button class="close-modal" id="closeEditModal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="edit-product-info">
+                <div class="edit-product-image">
+                    <img id="editProductImage" src="" alt="">
+                </div>
+                <div class="edit-product-details">
+                    <h4 id="editProductName"></h4>
+                    <p class="current-size" id="editCurrentSize"></p>
+                </div>
+            </div>
+            <div class="size-selector-modal" id="sizeSelectorModal">
+                <!-- Size options will be loaded here -->
+            </div>
+            <div class="edit-price-info">
+                <p>Harga: <span id="editProductPrice">Rp 0</span></p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelEdit">Batal</button>
+            <button class="btn-primary" id="saveEdit">Simpan Perubahan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="checkoutModal">
+    <div class="modal-content checkout-modal">
+        <div class="modal-header">
+            <h3>Checkout</h3>
+            <button class="close-modal" id="closeCheckoutModal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="checkoutForm">
+                <div class="form-section">
+                    <h4>Data Diri</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerName">Nama Lengkap *</label>
+                            <input type="text" id="customerName" name="customerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerPhone">No. WhatsApp *</label>
+                            <input type="tel" id="customerPhone" name="customerPhone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerEmail">Email</label>
+                            <input type="email" id="customerEmail" name="customerEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="customerCity">Kota *</label>
+                            <input type="text" id="customerCity" name="customerCity" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerAddress">Alamat Lengkap *</label>
+                        <textarea id="customerAddress" name="customerAddress" rows="3" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Pengiriman</h4>
+                    <div class="form-group">
+                        <label for="shippingMethod">Pilih Kurir *</label>
+                        <select id="shippingMethod" name="shippingMethod" required>
+                            <option value="">Pilih kurir...</option>
+                            <option value="gosend">GoSend (1-2 jam) - Rp 15,000</option>
+                            <option value="grabrexpress">GrabExpress (1-2 jam) - Rp 12,000</option>
+                            <option value="jne">JNE Reguler (2-3 hari) - Rp 10,000</option>
+                            <option value="tiki">TIKI Reguler (2-3 hari) - Rp 11,000</option>
+                            <option value="pos">POS Indonesia (3-5 hari) - Rp 8,000</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Catatan Tambahan</h4>
+                    <div class="form-group">
+                        <textarea id="orderNotes" name="orderNotes" rows="2" placeholder="Catatan khusus untuk pesanan..."></textarea>
+                    </div>
+                </div>
+
+                <div class="order-summary-section">
+                    <h4>Ringkasan Pesanan</h4>
+                    <div class="order-summary" id="orderSummary">
+                        <!-- Order summary will be loaded here -->
+                    </div>
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="summarySubtotal">Rp 0</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Ongkos Kirim:</span>
+                            <span id="summaryShipping">Rp 0</span>
+                        </div>
+                        <div class="total-row grand-total">
+                            <span>Total:</span>
+                            <span id="summaryTotal">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-info">
+                    <h4>Metode Pembayaran</h4>
+                    <div class="payment-methods">
+                        <div class="payment-method">
+                            <strong>Transfer Bank:</strong>
+                            <div>BCA: 123-456-7890 a.n Dapoer NC</div>
+                            <div>Mandiri: 098-765-4321 a.n Dapoer NC</div>
+                            <div>BNI: 567-890-1234 a.n Dapoer NC</div>
+                            <div>BRI: 432-109-8765 a.n Dapoer NC</div>
+                        </div>
+                        <div class="payment-method">
+                            <strong>E-Wallet:</strong>
+                            <div>OVO: 089652885287</div>
+                            <div>DANA: 089652885287</div>
+                            <div>GoPay: 089652885287</div>
+                            <div>ShopeePay: 089652885287</div>
+                        </div>
+                    </div>
+                    <div class="payment-note">
+                        <p><strong>Note:</strong> Order akan diproses dalam 1 hari kerja setelah pembayaran dikonfirmasi.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelCheckout">Batal</button>
+            <button class="btn-primary" id="confirmCheckout">
+                <i class="fab fa-whatsapp"></i> Lanjutkan ke WhatsApp
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
-
 </html>
-
-
